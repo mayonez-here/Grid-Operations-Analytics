@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid - Operations Analytics</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container my-4">
+    <div class="row mb-3">
+      <div class="col-12 d-flex justify-content-between">
+        <h2><i class="fas fa-chart-network me-2"></i>Grid Operations Analytics</h2>
+        <p class="mb-0">IST Time: <span id="current-timestamp">Loading...</span></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5><i class="fas fa-check-circle me-1"></i>Delivered %</h5>
+            <div class="kpi-value text-success" id="delivered-percent">--</div>
+            <div class="progress mt-2">
+              <div id="delivered-progress" class="progress-bar bg-success" style="width:0%"></div>
+            </div>
+            <div id="delivered-badge" class="badge bg-secondary mt-2">N/A</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5><i class="fas fa-undo me-1"></i>RTO %</h5>
+            <div class="kpi-value text-danger" id="rto-percent">--</div>
+            <div class="progress mt-2">
+              <div id="rto-progress" class="progress-bar bg-danger" style="width:0%"></div>
+            </div>
+            <div id="rto-badge" class="badge bg-secondary mt-2">N/A</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5><i class="fas fa-exclamation-triangle me-1"></i>Orders at Risk</h5>
+            <div class="kpi-value text-warning" id="risk-percent">--</div>
+            <div class="progress mt-2">
+              <div id="risk-progress" class="progress-bar bg-warning" style="width:0%"></div>
+            </div>
+            <div id="risk-badge" class="badge bg-secondary mt-2">N/A</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5><i class="fas fa-balance-scale me-1"></i>DRR</h5>
+            <div class="kpi-value text-primary" id="drr-value">--</div>
+            <p class="text-muted">Delivered / RTO Ratio</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h5>Thresholds</h5>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label">Delivered Threshold</label>
+          <input type="number" id="delivered-threshold" class="form-control" value="85" min="0" max="100">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">RTO Threshold</label>
+          <input type="number" id="rto-threshold" class="form-control" value="8" min="0" max="100">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Risk Threshold</label>
+          <input type="number" id="risk-threshold" class="form-control" value="20" min="0" max="100">
+        </div>
+      </div>
+      <button id="update-thresholds" class="btn btn-primary mt-3">Update</button>
+      <button id="reset-thresholds" class="btn btn-secondary mt-3 ms-2">Reset</button>
+    </div>
+
+    <div class="mt-4">
+      <h5>Rules Output</h5>
+      <p>Delivered: <span id="delivered-rules">N/A</span></p>
+      <p>RTO: <span id="rto-rules">N/A</span></p>
+      <p>Risk: <span id="risk-rules">N/A</span></p>
+    </div>
+  </div>
+
+  <script>
+    let thresholds = { delivered: 85, rto: 8, risk: 20 };
+
+    function updateDisplay(kpi) {
+      // Delivered
+      document.getElementById("delivered-percent").textContent = kpi.delivered_percent + "%";
+      document.getElementById("delivered-progress").style.width = kpi.delivered_percent + "%";
+
+      // RTO
+      document.getElementById("rto-percent").textContent = kpi.rto_percent + "%";
+      document.getElementById("rto-progress").style.width = kpi.rto_percent + "%";
+
+      // Risk (treat orders_at_risk as % for now)
+      document.getElementById("risk-percent").textContent = kpi.orders_at_risk + "%";
+      document.getElementById("risk-progress").style.width = kpi.orders_at_risk + "%";
+
+      // DRR
+      document.getElementById("drr-value").textContent = kpi.drr;
+
+      // Badges + rules
+      if (kpi.delivered_percent >= thresholds.delivered) {
+        document.getElementById("delivered-badge").className = "badge bg-success";
+        document.getElementById("delivered-badge").textContent = "Good";
+        document.getElementById("delivered-rules").innerHTML = '<span class="badge bg-success">GREEN</span>';
+      } else {
+        document.getElementById("delivered-badge").className = "badge bg-danger";
+        document.getElementById("delivered-badge").textContent = "Bad";
+        document.getElementById("delivered-rules").innerHTML = '<span class="badge bg-danger">RED</span>';
+      }
+
+      if (kpi.rto_percent <= thresholds.rto) {
+        document.getElementById("rto-badge").className = "badge bg-success";
+        document.getElementById("rto-badge").textContent = "Good";
+        document.getElementById("rto-rules").innerHTML = '<span class="badge bg-success">GREEN</span>';
+      } else {
+        document.getElementById("rto-badge").className = "badge bg-danger";
+        document.getElementById("rto-badge").textContent = "Bad";
+        document.getElementById("rto-rules").innerHTML = '<span class="badge bg-danger">RED</span>';
+      }
+
+      if (kpi.orders_at_risk <= thresholds.risk) {
+        document.getElementById("risk-badge").className = "badge bg-success";
+        document.getElementById("risk-badge").textContent = "Good";
+        document.getElementById("risk-rules").innerHTML = '<span class="badge bg-success">GREEN</span>';
+      } else {
+        document.getElementById("risk-badge").className = "badge bg-danger";
+        document.getElementById("risk-badge").textContent = "Bad";
+        document.getElementById("risk-rules").innerHTML = '<span class="badge bg-danger">RED</span>';
+      }
+    }
+
+    async function loadJSON() {
+      const res = await fetch("submission.json");
+      const data = await res.json();
+      updateDisplay(data.kpi);
+    }
+
+    document.getElementById("update-thresholds").addEventListener("click", () => {
+      thresholds.delivered = parseInt(document.getElementById("delivered-threshold").value);
+      thresholds.rto = parseInt(document.getElementById("rto-threshold").value);
+      thresholds.risk = parseInt(document.getElementById("risk-threshold").value);
+      loadJSON();
+    });
+
+    document.getElementById("reset-thresholds").addEventListener("click", () => {
+      thresholds = { delivered: 85, rto: 8, risk: 20 };
+      document.getElementById("delivered-threshold").value = 85;
+      document.getElementById("rto-threshold").value = 8;
+      document.getElementById("risk-threshold").value = 20;
+      loadJSON();
+    });
+
+    function updateIST() {
+      const now = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      document.getElementById("current-timestamp").textContent = now;
+    }
+
+    setInterval(updateIST, 1000);
+
+    document.addEventListener("DOMContentLoaded", loadJSON);
+  </script>
+</body>
+</html>

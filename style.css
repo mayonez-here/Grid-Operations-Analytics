@@ -1,0 +1,224 @@
+/* Base */
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #0b0f1a;
+  color: #f0f3fa;
+  line-height: 1.5;
+}
+
+.layout {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #1f2747;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: #9aa3b2;
+}
+
+.timestamp {
+  font-size: 14px;
+  color: #a2abc5;
+  background: #121833;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* KPI Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin: 28px 0;
+}
+
+.card {
+  background: #161d34;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #b2bbd6;
+}
+
+.card .big {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  margin-top: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badge.good {
+  background: rgba(31,191,117,0.15);
+  color: #1fbf75;
+  border: 1px solid rgba(31,191,117,0.5);
+}
+
+.badge.bad {
+  background: rgba(255,93,93,0.15);
+  color: #ff5d5d;
+  border: 1px solid rgba(255,93,93,0.5);
+}
+
+.badge.info {
+  background: rgba(80,115,255,0.15);
+  color: #5073ff;
+  border: 1px solid rgba(80,115,255,0.5);
+}
+
+/* Panels */
+.panel {
+  background: #161d34;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 26px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e7eaf6;
+}
+
+/* Form */
+.form {
+  display: grid;
+  gap: 16px;
+  max-width: 400px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  color: #9aa3b2;
+  margin-bottom: 4px;
+}
+
+.field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #2a3563;
+  background: #0f1630;
+  color: #f0f3fa;
+  font-size: 14px;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #5073ff;
+}
+
+.btn {
+  margin-top: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #5073ff;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: #3652d9;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Rules */
+.rules {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.rules li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.rules li.pass {
+  color: #1fbf75;
+}
+
+.rules li.fail {
+  color: #ff5d5d;
+}
+
+.json-block {
+  margin-top: 14px;
+  padding: 12px;
+  background: #0f1630;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #e7eaf6;
+  overflow-x: auto;
+}
+
+.json-block .label {
+  font-size: 12px;
+  color: #9aa3b2;
+  margin-bottom: 6px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 13px;
+  color: #9aa3b2;
+}
+
+.footer a {
+  display: inline-block;
+  margin-top: 6px;
+  color: #5073ff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
