@@ -18,7 +18,6 @@ It demonstrates KPI computation from shipment data and a minimal static dashboar
 - **Rules Output (Green/Red)** updates dynamically based on thresholds.
 - **Badges Colorization** for quick performance check.
 - **IST Timestamp** visible and updates every second.
-- **Responsive Layout** using Bootstrap + Chart.js.
 - **No console errors, clean file hygiene**.
 
 ---
@@ -55,4 +54,5 @@ It demonstrates KPI computation from shipment data and a minimal static dashboar
 ## 📝 Notes
 This is a **prototype**, not production-ready.  
 The goal is to demonstrate problem-solving, KPI computation, and a clean UI as per the challenge.
+
 
