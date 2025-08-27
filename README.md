@@ -27,7 +27,7 @@ It demonstrates KPI computation from shipment data and a minimal static dashboar
 - `submission.json` → Generated KPIs in required shape.  
 - `index.html` → Static dashboard page.  
 - `styles.css` → Custom styles.  
-- `kpi_generator.py` → Python script to compute KPIs from dataset (not required in hosted version, used for submission.json).  
+- `index.ipynb` → Jupyter script to compute KPIs from dataset (not required in hosted version, used for submission.json).  
 
 ---
 
@@ -55,3 +55,4 @@ It demonstrates KPI computation from shipment data and a minimal static dashboar
 ## 📝 Notes
 This is a **prototype**, not production-ready.  
 The goal is to demonstrate problem-solving, KPI computation, and a clean UI as per the challenge.
+
